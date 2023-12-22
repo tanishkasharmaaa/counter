@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .counter-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .counter-display {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 1em;
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="counter-container">
+        <h1>Counter</h1>
+        <div class="counter-display" id="counter">0</div>
+        <button id="toggle">Start / Stop</button>
+        <button id="increment">Increment</button>
+        <button id="decrement">Decrement</button>
+    </div>
+
+    <script>
+        class Counter {
+            constructor() {
+                this.count = 0;
+                this.intervalId = null;
+                this.manualMode = false;
+
+                this.counterDisplay = document.getElementById('counter');
+                this.toggleButton = document.getElementById('toggle');
+                this.incrementButton = document.getElementById('increment');
+                this.decrementButton = document.getElementById('decrement');
+
+                this.toggleButton.addEventListener('click', () => this.toggleCounter());
+                this.incrementButton.addEventListener('click', () => this.increment());
+                this.decrementButton.addEventListener('click', () => this.decrement());
+            }
+
+            toggleCounter() {
+                if (this.manualMode) {
+                    this.manualMode = false;
+                    this.startInterval();
+                    this.toggleButton.textContent = 'Stop';
+                } else {
+                    this.manualMode = true;
+                    this.stopInterval();
+                    this.toggleButton.textContent = 'Start';
+                }
+            }
+
+            startInterval() {
+                this.intervalId = setInterval(() => {
+                    this.count++;
+                    this.updateDisplay();
+                }, 1000);
+            }
+
+            stopInterval() {
+                clearInterval(this.intervalId);
+            }
+
+            increment() {
+                if (!this.manualMode) {
+                    this.manualMode = true;
+                    this.stopInterval();
+                    this.toggleButton.textContent = 'Start';
+                }
+                this.count++;
+                this.updateDisplay();
+            }
+
+            decrement() {
+                if (!this.manualMode) {
+                    this.manualMode = true;
+                    this.stopInterval();
+                    this.toggleButton.textContent = 'Start';
+                }
+                this.count--;
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                this.counterDisplay.textContent = this.count;
+            }
+        }
+
+        const counter = new Counter();
+    </script>
+</body>
+
+</html>
